@@ -78,6 +78,10 @@ if (!module.parent) {
       describe: 'percentage scale',
       default: '100%'
     })
+    .options('extrude', {
+      describe: 'increase border by the outer pixel colors',
+      default: 0
+    })
     .options('fuzz', {
       describe: 'percentage fuzz factor (usually value of 1% is a good choice)',
       default: ''
@@ -115,7 +119,7 @@ if (!module.parent) {
       if(argv.algorithm !== 'binpacking' || !isNaN(Number(argv.width)) && !isNaN(Number(argv.height))){
         return true;
       }
-      
+
       throw new Error('Width and/or height are not defined for binpacking');
     })
     .demand(1)
@@ -177,6 +181,7 @@ function generate(files, options, callback) {
   options.prefix = options.hasOwnProperty('prefix') ? options.prefix : '';
   options.divisibleByTwo = options.hasOwnProperty('divisibleByTwo') ? options.divisibleByTwo : false;
   options.cssOrder = options.hasOwnProperty('cssOrder') ? options.cssOrder : null;
+  options.extrude = options.hasOwnProperty('extrude') ? parseInt(options.extrude, 10) : 0;
 
   files = files.map(function (item, index) {
     var resolvedItem = path.resolve(item);
